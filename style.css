@@ -1,0 +1,58 @@
+body {
+    font-family: 'Mulish', sans-serif;
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+    min-width: 200px;
+}
+
+.bg-red {
+    background-color: #cc0e00;
+}
+
+.navbar-own {
+    height: 100px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.bg-maps {
+    background-image: url("img/maps.jpg");
+    background-size: cover;
+    height: 300px;
+    border-radius: 0;
+}
+
+.title {
+    color: white;
+}
+
+.search-input {
+    height: 50px;
+    width: 700px;
+    border-radius: 50px;
+}
+
+.btn-own {
+    height: 40px;
+    width: 130px;
+    border-radius: 50px;
+    font-size: 14px;
+}
+
+.card-own {
+    border: 2px solid #cc0e00;
+}
+
+footer {
+    background-color: #cc0e00;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+#footer-text {
+    color: white;
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <nav class="navbar bg-red navbar-own">
+      <p class="mx-auto">
+        <img src="img/logo.png" width="300" alt="Logo" />
+      </p>
+    </nav>
+
+    <div class="content-wrapper mt-5 pt-5 pb-5">
+      <div class="jumbotron bg-maps text-center">
+        <h3 class="title">FIND LOCATION</h3>
+        <div class="mx-5 px-5">
+          <input class="search-input form-control form-control-lg mx-auto mb-2" type="text" name="city-name" id="city-name" />
+          <button class="btn btn-success btn-lg btn-own" onClick="searchLocation()">Search</button>
+        </div>
+      </div>
+      <div class="result-wrapper">
+        <h3 id="result" class="text-center mb-3"></h3>
+        <div class="row mx-5 justify-content-center" id="city-location"></div>
+      </div>
+    </div>
+
+    <footer class="text-center pt-2">
+      <h6 class="h-100" id="footer-text">Made with &#128151; by Aruf Rachman Hakim - 149252529100-165 - JSA A</h6>
+    </footer>
+
+    <script>
+      const getCityData = async (cityName) => {
+        try {
+          const response = await fetch(`https://foreca-weather.p.rapidapi.com/location/search/${cityName}`, {
+            method: "GET",
+            headers: {
+              "X-RapidAPI-Key": "feec867effmsh2d7bc96ab734837p18d862jsn9ba0de001b97",
+              "X-RapidAPI-Host": "foreca-weather.p.rapidapi.com",
+            },
+          });
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      const displayCityLocation = (cityData) => {
+        const locationDiv = document.getElementById("city-location");
+        locations = cityData.locations;
+        let listOfCity = "";
+        for (let x = 0; x < locations.length; x++) {
+          const locationData = {
+            name: locations[x].name,
+            country: locations[x].country,
+            timezone: locations[x].timezone,
+            adminArea: locations[x].adminArea,
+            lon: locations[x].lon,
+            lat: locations[x].lat,
+          };
+          const element = ` 
+          <div class="col-md-4">
+          <div class="card card-own m-2" style="width: 25rem">
+        <div class="card-body">
+          <h5 class="card-title mb-1">${locationData.name}</h5>
+          <h6 class="card-subtitle mb-3 text-muted">${locationData.country}</h6>
+          <div class="row">
+            <div class="col-md-6">
+              <p><b class="text-danger">Timezone:</b><br> ${locationData.timezone}</p>
+              <p><b class="text-success">Admin Area:</b><br> ${locationData.adminArea}</p>
+            </div>
+            <div class="col-md-6">
+              <p><b class="text-warning">Longitude:</b><br> ${locationData.lon}</p>
+              <p><b class="text-primary">Latitude:</b><br> ${locationData.lat}</p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div> `;
+
+          listOfCity += element;
+        }
+        locationDiv.innerHTML = listOfCity;
+        document.getElementById("result").innerHTML = "<u>SEARCH RESULT</u>";
+      };
+
+      const searchLocation = async () => {
+        const values = document.getElementById("city-name").value;
+        if (!values) {
+          return null;
+        }
+        const cityData = await getCityData(values);
+        if (!cityData.error) {
+          displayCityLocation(cityData);
+        }
+      };
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
